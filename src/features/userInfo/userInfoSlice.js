@@ -23,6 +23,7 @@ export const fetchLogin = createAsyncThunk(
     } else if(JSON.parse(login) === true ){
       return true;
     } else {
+      localStorage.seItem('login',JSON.stringify(false))
       return false;
     }
   }

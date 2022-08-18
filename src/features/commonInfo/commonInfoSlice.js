@@ -36,8 +36,11 @@ const CommonInfoSlice = createSlice({
   name: "commonInfo",
   initialState,
   reducers:{
-    toggleModal:(state)=>{
-      state.modal = !state.modal 
+    openModal:(state)=>{
+      state.modal = true 
+    },
+    closeModal:(state)=>{
+      state.modal = false 
     },
   },
   extraReducers: {
@@ -53,7 +56,7 @@ const CommonInfoSlice = createSlice({
   },
 });
 
-export const {toggleModal,closeModal} = CommonInfoSlice.actions
+export const {openModal,closeModal} = CommonInfoSlice.actions
 export const getModal = store => store.commonInfo.modal 
 export const getCategories = store => store.commonInfo.categories ;
 export default CommonInfoSlice.reducer;
