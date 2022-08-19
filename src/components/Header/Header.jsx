@@ -1,9 +1,10 @@
 import {
   AccountCircleOutlined,
   CottageOutlined,
+  ExitToAppOutlined,
   Menu as MenuIcon,
   ShoppingBagOutlined,
-  TocOutlined,
+  TocOutlined
 } from "@mui/icons-material";
 import {
   AppBar,
@@ -21,20 +22,19 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import { fetchAccounts, fetchLogin, getLogin, logout } from "../../features/userInfo/userInfoSlice";
 import {
   fetchAsyncCategories,
   getCategories,
-} from "../../features/commonInfo/commonInfoSlice";
-import { fetchLogin, getLogin } from "../../features/userInfo/userInfoSlice";
-import {
-  getModal,
-  openModal,
 } from "../../features/commonInfo/commonInfoSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 import Login from '../Login/Login'
+import {
+  openModal,
+} from "../../features/commonInfo/commonInfoSlice";
 
 function Header() {
   const [openMenu, setOpenMenu] = useState(null);
@@ -51,7 +51,8 @@ function Header() {
   useEffect(() => {
     dispatch(fetchAsyncCategories());
     dispatch(fetchLogin());
-  }, [dispatch,login,categories]);
+    dispatch(fetchAccounts());
+  }, [dispatch]);
   return (
     // navbar
     <>
@@ -178,26 +179,31 @@ function Header() {
             {/* login / cart */}
             {(login && (
               <Link to="/cart">
-                <Button sx={{ color: "#fff" }}>
+                <Button title="Cart" sx={{ color: "#fff" }}>
                   <ShoppingBagOutlined
                     sx={{ justifySelf: "flex-end" }}
-                    title="Cart"
                   />
                 </Button>
               </Link>
             ))}
             { !login && (
               <Button
+              title="log in/sign in"
                 onClick={() => dispatch(openModal())}
                 sx={{ color: "#fff" }}
               >
-                <AccountCircleOutlined title="log in/sign in" />
+                <AccountCircleOutlined />
               </Button>
             )}
+            {/* logout */}
+            {login && (
+            <IconButton title="Log out" onClick={()=>dispatch(logout())} sx={{color: "#fff" }}>
+            <ExitToAppOutlined/>
+            </IconButton>)}
           </Toolbar>
         </AppBar>
       </Box>
-      <Login/>
+      <Login isLogin={login} />
     </>
   );
 }

@@ -31,6 +31,7 @@ const initialState = {
   products: [],
   details: {},
   modal: false,
+  loginModal:true,
 };
 const CommonInfoSlice = createSlice({
   name: "commonInfo",
@@ -42,6 +43,9 @@ const CommonInfoSlice = createSlice({
     closeModal:(state)=>{
       state.modal = false 
     },
+    signOrLog:(state)=>{
+      state.loginModal = !state.loginModal
+    }
   },
   extraReducers: {
     [fetchAsyncCategories.fulfilled]: (state, { payload }) => {
@@ -56,7 +60,8 @@ const CommonInfoSlice = createSlice({
   },
 });
 
-export const {openModal,closeModal} = CommonInfoSlice.actions
+export const {openModal,closeModal,signOrLog} = CommonInfoSlice.actions
 export const getModal = store => store.commonInfo.modal 
+export const getLoginModal = store => store.commonInfo.loginModal 
 export const getCategories = store => store.commonInfo.categories ;
 export default CommonInfoSlice.reducer;

@@ -1,40 +1,193 @@
-import { Box, Modal } from '@mui/material'
-import {useDispatch, useSelector} from 'react-redux'
+import {
+  Alert,
+  Box,
+  Button,
+  Divider,
+  IconButton,
+  Modal,
+  TextField,
+  Typography,
+} from "@mui/material";
+import {
+  closeModal,
+  getLoginModal,
+  getModal,
+  signOrLog,
+} from "../../features/commonInfo/commonInfoSlice";
+import { getErrorMsg, resetErrorMsg, setLogin, setSignin } from "../../features/userInfo/userInfoSlice";
+import { useDispatch, useSelector } from "react-redux";
 
-import {closeModal} from '../../features/commonInfo/commonInfoSlice'
-import {getModal} from '../../features/commonInfo/commonInfoSlice'
+import { Close } from "@mui/icons-material";
+import Grid from "@mui/material/Unstable_Grid2";
+import { Link } from "@mui/material";
+import { useEffect } from "react";
 
 const style = {
-  position: 'fixed',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'white',
-  border: '2px solid #000',
+  position: "fixed",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: { xs: "90%", sm: 700 },
+  bgcolor: "white",
+  border: "2px solid #000",
   boxShadow: 24,
   pt: 2,
   px: 4,
   pb: 3,
-}
+  overflowY: "auto",
+};
 
-function Login() {
-
-  const open = useSelector(getModal)
+function Login({ isLogin }) {
+  const open = useSelector(getModal);
+  const loginModal = useSelector(getLoginModal);
+  const error = useSelector(getErrorMsg);
   const dispatch = useDispatch();
-  const handleClose = ()=>{
-    dispatch(closeModal())
+  const handleClose = () => {
+    if (!loginModal) {
+      dispatch(signOrLog());
+    }
+    dispatch(closeModal());
+  };
+  const handleModalChange = () => {
+    dispatch(signOrLog());
+  };
+  const handleLogin = (e) => {
+    e.preventDefault();
+    dispatch(
+      setLogin({ userName: e.target[0].value, password: e.target[2].value })
+    );
+  };
+  const handleSignin = (e) => {
+    e.preventDefault();
+    dispatch(setSignin({userName:e.target[0].value, password: e.target[2].value, email:e.target[4].value,cart:[]}));
+  };
+  useEffect(()=>{
+    if(isLogin){
+      dispatch(closeModal())
+    }
+  },[isLogin])
+  useEffect(() => {
+    setTimeout(()=>{
+      dispatch(resetErrorMsg())
+    },3000)
+  },[error,isLogin]);
+  
+  if (loginModal) {
+    return (
+      <>
+        <Modal open={open} onClose={handleClose}>
+          <Box sx={style}>
+            <IconButton onClick={handleClose} sx={{ top: 0, left: 0 }}>
+              <Close />
+            </IconButton>
+            {error && (<Alert severity="error">{error}</Alert>)}
+            <Typography variant="h6" textAlign="center">
+              Log in
+            </Typography>
+            <form onSubmit={handleLogin}>
+              <Box sx={{ flexGrow: 1 }}>
+                <Grid container spacing={2}>
+                  <Grid
+                    xs={6}
+                    sx={{ display: "flex", justifyContent: "center" }}
+                  >
+                    <TextField required label="Username" />
+                  </Grid>
+                  <Grid
+                    xs={6}
+                    sx={{ display: "flex", justifyContent: "center" }}
+                  >
+                    <TextField required label="Password" type="password" />
+                  </Grid>
+                  <Grid
+                    sx={{ display: "flex", justifyContent: "center", m: 1 }}
+                    xs={12}
+                  >
+                    <Button
+                      sx={{ width: "30%", mb: 2 }}
+                      variant="contained"
+                      type="submit"
+                    >
+                      Login
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Box>
+            </form>
+            <Divider />
+            Don't have Account?{" "}
+            <Link
+              onClick={handleModalChange}
+              sx={{ useSelect: "none", cursor: "pointer" }}
+            >
+              Sign in
+            </Link>
+          </Box>
+        </Modal>
+      </>
+    );
   }
-  return (
-    <>
-      <Modal open={open} onClose={handleClose}>
-        <Box sx={style}>
-          Please Log in
-          <input type="text" />
-        </Box>
-      </Modal>
-    </>
-  )
+  if (!loginModal) {
+    return (
+      <>
+        <Modal open={open} onClose={handleClose}>
+          <Box sx={style}>
+            <IconButton onClick={handleClose} sx={{ top: 0, left: 0 }}>
+              <Close />
+            </IconButton>
+            {error && (<Alert severity="error">{error}</Alert>)}
+            <Typography variant="h6" textAlign="center">
+              sign in
+            </Typography>
+            <form onSubmit={handleSignin}>
+              <Box sx={{ flexGrow: 1 }}>
+                <Grid container spacing={2}>
+                  <Grid
+                    xs={6}
+                    sx={{ display: "flex", justifyContent: "center" }}
+                  >
+                    <TextField required label="Username" />
+                  </Grid>
+                  <Grid
+                    xs={6}
+                    sx={{ display: "flex", justifyContent: "center" }}
+                  >
+                    <TextField required label="Password" type="password" />
+                  </Grid>
+                  <Grid
+                    xs={12}
+                    sx={{ display: "flex", justifyContent: "center" }}
+                  >
+                    <TextField required label="Email" type="email" />
+                  </Grid>
+                  <Grid
+                    sx={{ display: "flex", justifyContent: "center", m: 1 }}
+                    xs={12}
+                  >
+                    <Button
+                      sx={{ width: "30%", mb: 2 }}
+                      variant="contained"
+                      type="submit"
+                    >
+                      Signin
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Box>
+            </form>
+            <Divider />
+            Already Registered?{" "}
+            <Link
+              onClick={handleModalChange}
+              sx={{ useSelect: "none", cursor: "pointer" }}
+            >
+              Log in
+            </Link>
+          </Box>
+        </Modal>
+      </>
+    );
+  }
 }
 
-export default Login
+export default Login;

@@ -3,6 +3,7 @@ import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-d
 import Cart from './components/Cart/Cart'
 import Categories from './components/Categories/Categories';
 import Category from './components/Categories/Category';
+import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 import Home from "./components/Home/Home";
 import ProductDetails from "./components/ProductDetails/ProductDetails";
@@ -21,6 +22,7 @@ function App() {
           <Route path="Details/:productDetails" element={<ProductDetails/>}/>
           <Route path="/cart" element={<Cart/>}/>
         </Routes>
+        <Footer/>
       </Router>
     </>
   );

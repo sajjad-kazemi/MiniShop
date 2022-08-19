@@ -8,11 +8,10 @@ function Cart() {
   const login = useSelector(getLogin);
   const dispatch = useDispatch()
   useEffect(()=>{
-    console.log(login);
     if(!login){
       dispatch(openModal());
     }
-  },[dispatch])
+  },[login])
   return <div>Cart</div>;
 }
 
