@@ -52,11 +52,11 @@ function Header() {
     dispatch(fetchAsyncCategories());
     dispatch(fetchLogin());
     dispatch(fetchAccounts());
-  }, [dispatch]);
+  }, []);
   return (
     // navbar
     <>
-      <Box sx={{ display: "flex" }}>
+      <Box sx={{ display: "flex",position:'sticky', top:0 }}>
         <AppBar position="sticky" component="nav" color="primary">
           <Toolbar sx={{ justifyContent: { xs: "space-between" } }}>
             <Box
@@ -93,7 +93,7 @@ function Header() {
                   }}
                   anchorEl={openMenu}
                 >
-                  {categories.map((item) => {
+                  {categories && categories.map((item) => {
                     return (
                       <MenuItem onClick={() => setOpenMenu(null)} key={item}>
                         <Link

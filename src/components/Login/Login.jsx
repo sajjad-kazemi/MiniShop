@@ -59,7 +59,7 @@ function Login({ isLogin }) {
   };
   const handleSignin = (e) => {
     e.preventDefault();
-    dispatch(setSignin({userName:e.target[0].value, password: e.target[2].value, email:e.target[4].value,cart:[]}));
+    dispatch(setSignin({userName:e.target[0].value, password: e.target[2].value, email:e.target[4].value,cart:{}}));
   };
   useEffect(()=>{
     if(isLogin){
