@@ -14,13 +14,18 @@ import {
   getModal,
   signOrLog,
 } from "../../features/commonInfo/commonInfoSlice";
-import { getErrorMsg, resetErrorMsg, setLogin, setSignin } from "../../features/userInfo/userInfoSlice";
+import {
+  getErrorMsg,
+  resetErrorMsg,
+  setLogin,
+  setSignin,
+} from "../../features/userInfo/userInfoSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Close } from "@mui/icons-material";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Link } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const style = {
   position: "fixed",
@@ -38,18 +43,26 @@ const style = {
 };
 
 function Login({ isLogin }) {
+  const initialForm = {userName:'', password:'',email:''};
+  const initialErrors = {userName:false, password:false, email:false}
+  const initialErrorMsg = {userName:'', password:'',email:''}
+  const [formValues,setFormValues] = useState(initialForm);
+  const [errors,setErrors] = useState(initialErrors);
+  const [errorMsg,setErrorMsg] = useState(initialErrorMsg);
   const open = useSelector(getModal);
   const loginModal = useSelector(getLoginModal);
   const error = useSelector(getErrorMsg);
   const dispatch = useDispatch();
   const handleClose = () => {
-    if (!loginModal) {
-      dispatch(signOrLog());
-    }
     dispatch(closeModal());
+    setFormValues(initialForm)
+    
   };
   const handleModalChange = () => {
-    dispatch(signOrLog());
+    setFormValues(initialForm);
+    setErrors(initialErrors);
+    setErrorMsg(initialErrorMsg);
+    dispatch(signOrLog(!loginModal));
   };
   const handleLogin = (e) => {
     e.preventDefault();
@@ -59,19 +72,56 @@ function Login({ isLogin }) {
   };
   const handleSignin = (e) => {
     e.preventDefault();
-    dispatch(setSignin({userName:e.target[0].value, password: e.target[2].value, email:e.target[4].value,cart:{}}));
+    dispatch(
+      setSignin({
+        userName: e.target[0].value,
+        password: e.target[2].value,
+        email: e.target[4].value,
+        cart: {},
+      })
+    );
   };
-  useEffect(()=>{
-    if(isLogin){
-      dispatch(closeModal())
+  const handleChange = (e)=>{
+    const {name,value} = e.target;
+    setFormValues({...formValues,[name]:value});
+    validate(e.target)
+  }
+  const validate =(target)=>{
+    const {name,value} = target;
+    if(name === 'userName' && value.length < 3){
+      setErrors({...errors,[name]:true});
+      setErrorMsg({...errorMsg,[name]:'UserName should have 3 characters at least!'})
+      return;
     }
-  },[isLogin])
+    if(name === 'email' ){
+      const regex = (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
+      if(!regex.test(value)){
+        setErrors({...errors,[name]:true});
+        setErrorMsg({...errorMsg,[name]:'Please insert a valid email!'});
+        return;
+      }
+    }
+    if(name=== 'password'){
+      if(value.length<4){
+        setErrors({...errors,[name]:true});
+        setErrorMsg({...errors,[name]:'Password should have at least 4 characters'})
+        return
+      }
+    }
+    setErrors({...errors,[name]:false});
+    setErrorMsg({...errorMsg,[name]:''})
+  }
   useEffect(() => {
-    setTimeout(()=>{
-      dispatch(resetErrorMsg())
-    },3000)
-  },[error,isLogin]);
-  
+    if (isLogin) {
+      dispatch(closeModal());
+    }
+  }, [isLogin]);
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(resetErrorMsg());
+    }, 3000);
+  }, [error, isLogin]);
+
   if (loginModal) {
     return (
       <>
@@ -80,24 +130,23 @@ function Login({ isLogin }) {
             <IconButton onClick={handleClose} sx={{ top: 0, left: 0 }}>
               <Close />
             </IconButton>
-            {error && (<Alert severity="error">{error}</Alert>)}
+            {error && <Alert severity="error">{error}</Alert>}
             <Typography variant="h6" textAlign="center">
               Log in
             </Typography>
-            <form onSubmit={handleLogin}>
-              <Box sx={{ flexGrow: 1 }}>
+              <Box onSubmit={handleLogin} component="form" sx={{ flexGrow: 1 }}>
                 <Grid container spacing={2}>
                   <Grid
                     xs={6}
                     sx={{ display: "flex", justifyContent: "center" }}
                   >
-                    <TextField required label="Username" />
+                    <TextField required error={errors.userName} onChange={handleChange} name='userName' label="Username" />
                   </Grid>
                   <Grid
                     xs={6}
                     sx={{ display: "flex", justifyContent: "center" }}
                   >
-                    <TextField required label="Password" type="password" />
+                    <TextField error={errors.password} required onChange={handleChange} name='password' label="Password" type="password" />
                   </Grid>
                   <Grid
                     sx={{ display: "flex", justifyContent: "center", m: 1 }}
@@ -113,7 +162,6 @@ function Login({ isLogin }) {
                   </Grid>
                 </Grid>
               </Box>
-            </form>
             <Divider />
             Don't have Account?{" "}
             <Link
@@ -135,7 +183,7 @@ function Login({ isLogin }) {
             <IconButton onClick={handleClose} sx={{ top: 0, left: 0 }}>
               <Close />
             </IconButton>
-            {error && (<Alert severity="error">{error}</Alert>)}
+            {error && <Alert severity="error">{error}</Alert>}
             <Typography variant="h6" textAlign="center">
               sign in
             </Typography>
@@ -146,19 +194,19 @@ function Login({ isLogin }) {
                     xs={6}
                     sx={{ display: "flex", justifyContent: "center" }}
                   >
-                    <TextField required label="Username" />
+                    <TextField error={errors.userName} helperText={errorMsg.userName} required onChange={handleChange} name='userName' label="Username" />
                   </Grid>
                   <Grid
                     xs={6}
                     sx={{ display: "flex", justifyContent: "center" }}
                   >
-                    <TextField required label="Password" type="password" />
+                    <TextField error={errors.password} helperText={errorMsg.password} required onChange={handleChange} name='password' label="Password" type="password" />
                   </Grid>
                   <Grid
                     xs={12}
                     sx={{ display: "flex", justifyContent: "center" }}
                   >
-                    <TextField required label="Email" type="email" />
+                    <TextField error={errors.email} helperText={errorMsg.email} required onChange={handleChange} name='email' label="Email" type="email" />
                   </Grid>
                   <Grid
                     sx={{ display: "flex", justifyContent: "center", m: 1 }}

@@ -4,11 +4,12 @@ import {
   ExitToAppOutlined,
   Menu as MenuIcon,
   ShoppingBagOutlined,
-  TocOutlined
+  TocOutlined,
 } from "@mui/icons-material";
 import {
   AppBar,
   Box,
+  Badge,
   Button,
   Drawer,
   IconButton,
@@ -22,7 +23,14 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { fetchAccounts, fetchLogin, getLogin, logout } from "../../features/userInfo/userInfoSlice";
+import {
+  fetchAccounts,
+  fetchLogin,
+  getLogin,
+  logout,
+  getCurrentUser,
+  getCartItems,
+} from "../../features/userInfo/userInfoSlice";
 import {
   fetchAsyncCategories,
   getCategories,
@@ -31,16 +39,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
-import Login from '../Login/Login'
-import {
-  openModal,
-} from "../../features/commonInfo/commonInfoSlice";
+import Login from "../Login/Login";
+import { openModal } from "../../features/commonInfo/commonInfoSlice";
 
 function Header() {
   const [openMenu, setOpenMenu] = useState(null);
   const [drawer, setDrawer] = useState(false);
   const categories = useSelector(getCategories);
+  const cartItems = useSelector(getCartItems);
   const login = useSelector(getLogin);
+  const currentUser = useSelector(getCurrentUser);
   const dispatch = useDispatch();
   const toggleDrawer = (e, open) => {
     if ((e.type === "keydown" && e.key === "Tab") || e.key === "Shift") {
@@ -56,7 +64,7 @@ function Header() {
   return (
     // navbar
     <>
-      <Box sx={{ display: "flex",position:'sticky', top:0 }}>
+      <Box sx={{ display: "flex", position: "sticky", top: 0, zIndex: 10 }}>
         <AppBar position="sticky" component="nav" color="primary">
           <Toolbar sx={{ justifyContent: { xs: "space-between" } }}>
             <Box
@@ -67,12 +75,10 @@ function Header() {
                 },
               }}
             >
-              <Link to={"/home"} style={{ textDecoration: "none"}}>
+              <Link to={"/home"} style={{ textDecoration: "none" }}>
                 <Button key={"home"} sx={{ color: "#fff" }}>
-                  <CottageOutlined size="small"/>
-                  <Typography >
-                    Home
-                  </Typography>
+                  <CottageOutlined size="small" />
+                  <Typography>Home</Typography>
                 </Button>
               </Link>
               <span style={{ position: "relative" }}>
@@ -87,29 +93,30 @@ function Header() {
                 </Button>
                 <Menu
                   onClose={() => setOpenMenu(null)}
-                  open={Boolean(openMenu)}
+                  open={!!openMenu}
                   MenuListProps={{
                     "aria-labelledby": "basic-button",
                   }}
                   anchorEl={openMenu}
                 >
-                  {categories && categories.map((item) => {
-                    return (
-                      <MenuItem onClick={() => setOpenMenu(null)} key={item}>
-                        <Link
-                          style={{
-                            textDecoration: "none",
-                            color: "#000",
-                            width: "100%",
-                            height: "100%",
-                          }}
-                          to={"/categories/" + item}
-                        >
-                          {item}
-                        </Link>
-                      </MenuItem>
-                    );
-                  })}
+                  {categories &&
+                    categories.map((item) => {
+                      return (
+                        <MenuItem onClick={() => setOpenMenu(null)} key={item}>
+                          <Link
+                            style={{
+                              textDecoration: "none",
+                              color: "#000",
+                              width: "100%",
+                              height: "100%",
+                            }}
+                            to={"/categories/" + item}
+                          >
+                            {item}
+                          </Link>
+                        </MenuItem>
+                      );
+                    })}
                 </Menu>
               </span>
             </Box>
@@ -121,7 +128,7 @@ function Header() {
               edge="start"
               color="inherit"
             >
-              <MenuIcon />
+              <MenuIcon sx={{ zIndex: 10 }} />
             </IconButton>
             <Drawer
               anchor="left"
@@ -177,18 +184,18 @@ function Header() {
               MiniShop
             </Typography>
             {/* login / cart */}
-            {(login && (
+            {login && (
               <Link to="/cart">
                 <Button title="Cart" sx={{ color: "#fff" }}>
-                  <ShoppingBagOutlined
-                    sx={{ justifySelf: "flex-end" }}
-                  />
+                  <Badge color="info" badgeContent={cartItems}>
+                    <ShoppingBagOutlined sx={{ justifySelf: "flex-end" }} />
+                  </Badge>
                 </Button>
               </Link>
-            ))}
-            { !login && (
+            )}
+            {!login && (
               <Button
-              title="log in/sign in"
+                title="log in/sign in"
                 onClick={() => dispatch(openModal())}
                 sx={{ color: "#fff" }}
               >
@@ -197,9 +204,14 @@ function Header() {
             )}
             {/* logout */}
             {login && (
-            <IconButton title="Log out" onClick={()=>dispatch(logout())} sx={{color: "#fff" }}>
-            <ExitToAppOutlined/>
-            </IconButton>)}
+              <IconButton
+                title="Log out"
+                onClick={() => dispatch(logout(currentUser))}
+                sx={{ color: "#fff" }}
+              >
+                <ExitToAppOutlined />
+              </IconButton>
+            )}
           </Toolbar>
         </AppBar>
       </Box>

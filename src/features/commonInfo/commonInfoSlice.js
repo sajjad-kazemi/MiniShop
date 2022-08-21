@@ -48,10 +48,11 @@ const CommonInfoSlice = createSlice({
       state.modal = true;
     },
     closeModal: (state) => {
+      state.loginModal = true;
       state.modal = false;
     },
-    signOrLog: (state) => {
-      state.loginModal = !state.loginModal;
+    signOrLog: (state, { payload }) => {
+      state.loginModal = payload;
     },
   },
   extraReducers: {
@@ -64,8 +65,8 @@ const CommonInfoSlice = createSlice({
     [fetchAsyncAllProducts.fulfilled]: (state, { payload }) => {
       return { ...state, products: payload, productsLoading: false };
     },
-    [fetchAsyncAllProducts.loading]: (state) => {
-      return { ...state, products: [], productsLoading: true };
+    [fetchAsyncAllProducts.pending]: (state) => {
+      return { ...state, productsLoading: true };
     },
     [fetchAsyncAllProducts.rejected]: (state) => {
       alert(
