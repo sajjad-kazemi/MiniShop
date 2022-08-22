@@ -15,6 +15,7 @@ export const fetchAsyncCategories = createAsyncThunk(
     }
   }
 );
+
 export const fetchAsyncAllProducts = createAsyncThunk(
   "commonInfo/fetchAsyncAllProducts",
   async (payload) => {
@@ -32,6 +33,7 @@ export const fetchAsyncAllProducts = createAsyncThunk(
     }
   }
 );
+
 const initialState = {
   categories: [],
   products: [],
@@ -70,7 +72,7 @@ const CommonInfoSlice = createSlice({
     },
     [fetchAsyncAllProducts.rejected]: (state) => {
       alert(
-`something wend wrong!
+        `something wend wrong!
 Please check your internet and reload.`
       );
       return { ...state, productsLoading: false, products: [] };
@@ -84,4 +86,5 @@ export const getAllProducts = (store) => store.commonInfo.products;
 export const getModal = (store) => store.commonInfo.modal;
 export const getLoginModal = (store) => store.commonInfo.loginModal;
 export const getCategories = (store) => store.commonInfo.categories;
+export const getDetails = (store) => store.commonInfo.details;
 export default CommonInfoSlice.reducer;

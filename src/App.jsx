@@ -7,7 +7,7 @@ import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 import Home from "./components/Home/Home";
 import ProductDetails from "./components/ProductDetails/ProductDetails";
-
+import NotFound from "./components/NotFound/NotFound";
 function App() {
   return (
     <>
@@ -19,8 +19,9 @@ function App() {
           <Route path="/categories" element={<Categories/>}>
             <Route path=":category" element={<Category/>}/>
           </Route>
-          <Route path="Details/:productDetails" element={<ProductDetails/>}/>
+          <Route path="details/:productDetails" element={<ProductDetails/>}/>
           <Route path="/cart" element={<Cart/>}/>
+          <Route path="/*" element={<NotFound/>}/>
         </Routes>
         <Footer/>
       </Router>

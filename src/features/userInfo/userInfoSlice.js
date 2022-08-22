@@ -35,12 +35,33 @@ export const fetchAccounts = createAsyncThunk("userInfo/fetchAccounts", () => {
   }
 });
 
+export const fetchCurrentUser = createAsyncThunk(
+  'userInfo/fetchCurrentUser',
+  ()=>{
+    const login = JSON.parse(localStorage.getItem("login"))
+    if(!login){
+      return;
+    }
+    const currentUser =localStorage.getItem('currentUser');
+    const currentUserObj = JSON.parse(currentUser)
+    if(currentUserObj === null){
+      localStorage.setItem("currentUser",'{}')
+      return;
+    }
+    if(typeof currentUserObj === 'object'){
+      return currentUserObj;
+    }
+    return {}
+  }
+)
+
 const initialState = {
   login: false,
   accounts: [],
   currentUser: {userName:'', password:'',email:'', cart:{}},
   cartItems: 0,
   errorMsg: "",
+  totalPrice:0,
 };
 const UserInfoSlice = createSlice({
   name: "userInfo",
@@ -155,22 +176,51 @@ please try something else.`;
       localStorage.setItem('accounts', JSON.stringify(accounts));
       localStorage.setItem('currentUser', JSON.stringify(newCurrentUser));
     },
+    clearCart: (state, { payload }) => {
+      const {currentUser,accounts} = payload;
+      state.currentUser.cart = {};
+      state.cartItems = 0;
+      const newCurrentUser = {...currentUser,cart:{}};
+      localStorage.setItem('currentUser', JSON.stringify(newCurrentUser));
+      localStorage.setItem('accounts', JSON.stringify({...accounts,newCurrentUser}));
+    },
+    setTotalPrice:(state, { payload })=>{
+      const {clear,price,currentTotal} = payload;
+      if(clear){
+        state.totalPrice = 0;
+        return;
+      }
+      if(!price){
+        return;
+      }
+      state.totalPrice = price + currentTotal;
+    }
   },
   extraReducers: {
     [fetchLogin.fulfilled]: (state, { payload }) => {
       const { login, currentUser } = payload;
-      return { ...state, login, currentUser };
+      let cartItems = 0
+      Object.values(currentUser.cart).forEach(value=>{
+        cartItems += value
+      })
+      return { ...state, login, currentUser, cartItems };
     },
     [fetchAccounts.fulfilled]: (state, { payload }) => {
       return { ...state, accounts: payload };
     },
+    [fetchCurrentUser.fulfilled]:(state, { payload }) => {
+      const currentUser = payload || {userName:'', password:'',email:'', cart:{}};
+      return { ...state, currentUser };
+    }
   },
 });
 
-export const { setLogin, setSignin, resetErrorMsg, logout, cartChange } =
+export const { setLogin, setSignin, resetErrorMsg, logout, cartChange, clearCart, setTotalPrice } =
   UserInfoSlice.actions;
 export const getCurrentUser = (store) => store.userInfo.currentUser;
 export const getLogin = (store) => store.userInfo.login;
 export const getErrorMsg = (store) => store.userInfo.errorMsg;
-export const getCartItems = (store) => store.userInfo.cartItems
+export const getCartItems = (store) => store.userInfo.cartItems;
+export const getCart = (store) => store.userInfo.currentUser.cart;
+export const getTotalPrice= (store) => store.userInfo.totalPrice;
 export default UserInfoSlice.reducer;

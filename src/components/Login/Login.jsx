@@ -88,24 +88,24 @@ function Login({ isLogin }) {
   }
   const validate =(target)=>{
     const {name,value} = target;
-    if(name === 'userName' && value.length < 3){
+    if(name === 'userName' && value.length < 3 && value.length !== 0){
       setErrors({...errors,[name]:true});
       setErrorMsg({...errorMsg,[name]:'UserName should have 3 characters at least!'})
       return;
     }
     if(name === 'email' ){
       const regex = (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
-      if(!regex.test(value)){
+      if(!regex.test(value) && value.length !== 0){
         setErrors({...errors,[name]:true});
         setErrorMsg({...errorMsg,[name]:'Please insert a valid email!'});
         return;
       }
     }
     if(name=== 'password'){
-      if(value.length<4){
+      if(value.length<4 && value.length !== 0){
         setErrors({...errors,[name]:true});
-        setErrorMsg({...errors,[name]:'Password should have at least 4 characters'})
-        return
+        setErrorMsg({...errorMsg,[name]:'Password should have at least 4 characters'})
+        return;
       }
     }
     setErrors({...errors,[name]:false});
@@ -179,7 +179,7 @@ function Login({ isLogin }) {
     return (
       <>
         <Modal open={open} onClose={handleClose}>
-          <Box sx={style}>
+          <Box component="section" sx={style}>
             <IconButton onClick={handleClose} sx={{ top: 0, left: 0 }}>
               <Close />
             </IconButton>

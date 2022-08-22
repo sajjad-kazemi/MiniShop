@@ -64,8 +64,8 @@ function Header() {
   return (
     // navbar
     <>
-      <Box sx={{ display: "flex", position: "sticky", top: 0, zIndex: 10 }}>
-        <AppBar position="sticky" component="nav" color="primary">
+      <Box component="nav" sx={{ display: "flex", position: "sticky", top: 0, zIndex: 10 }}>
+        <AppBar position="sticky" component="div" color="primary">
           <Toolbar sx={{ justifyContent: { xs: "space-between" } }}>
             <Box
               sx={{
@@ -187,7 +187,7 @@ function Header() {
             {login && (
               <Link to="/cart">
                 <Button title="Cart" sx={{ color: "#fff" }}>
-                  <Badge color="info" badgeContent={cartItems}>
+                  <Badge color="secondary" badgeContent={cartItems}>
                     <ShoppingBagOutlined sx={{ justifySelf: "flex-end" }} />
                   </Badge>
                 </Button>
