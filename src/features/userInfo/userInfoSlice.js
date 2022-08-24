@@ -35,26 +35,6 @@ export const fetchAccounts = createAsyncThunk("userInfo/fetchAccounts", () => {
   }
 });
 
-//  ! i don't need this one:
-// export const fetchCurrentUser = createAsyncThunk(
-//   'userInfo/fetchCurrentUser',
-//   ()=>{
-//     const login = JSON.parse(localStorage.getItem("login"));
-//     if(!login){
-//       return;
-//     }
-//     const currentUser =localStorage.getItem('currentUser');
-//     const currentUserObj = JSON.parse(currentUser)
-//     if(currentUserObj === null){
-//       localStorage.setItem("currentUser",'{}');
-//       return;
-//     }
-//     if(typeof currentUserObj === 'object'){
-//       return currentUserObj;
-//     }
-//     return {}
-//   }
-// )
 
 const initialState = {
   login: false,
@@ -132,7 +112,6 @@ please try something else.`;
       state.login = false;
       state.currentUser = {};
       state.cartItems = 0;
-      state.accounts = [ ...lsAccounts, currentUser ];
       const newAccounts = [...accounts]
       let indexOfCurrentUser = 0;
       newAccounts.forEach((account,index) =>{
@@ -141,6 +120,7 @@ please try something else.`;
         }
       });
       newAccounts[indexOfCurrentUser] = {...currentUser}
+      state.accounts = newAccounts
       localStorage.setItem("accounts",JSON.stringify(newAccounts));
       localStorage.setItem("login", "false");
       localStorage.setItem("currentUser", "{}");
@@ -226,10 +206,6 @@ please try something else.`;
     [fetchAccounts.fulfilled]: (state, { payload }) => {
       return { ...state, accounts: payload };
     },
-    // [fetchCurrentUser.fulfilled]:(state, { payload }) => {
-    //   const currentUser = payload || {userName:'', password:'',email:'', cart:{}};
-    //   return { ...state, currentUser };
-    // }
   },
 });
 

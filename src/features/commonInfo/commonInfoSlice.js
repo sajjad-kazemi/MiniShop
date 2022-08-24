@@ -38,7 +38,6 @@ const initialState = {
   categories: [],
   products: [],
   productsLoading: true,
-  details: {},
   modal: false,
   loginModal: true,
 };
@@ -86,5 +85,4 @@ export const getAllProducts = (store) => store.commonInfo.products;
 export const getModal = (store) => store.commonInfo.modal;
 export const getLoginModal = (store) => store.commonInfo.loginModal;
 export const getCategories = (store) => store.commonInfo.categories;
-export const getDetails = (store) => store.commonInfo.details;
 export default CommonInfoSlice.reducer;

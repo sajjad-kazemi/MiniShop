@@ -76,7 +76,7 @@ function ListContainer({ category }) {
               <Card sx={{ maxWidth: 300, maxHeight:4000 ,minHeight:450,mx:'auto' }}>
                 <CardContent sx={{backgroundColor:'#eee',width:'100%',height:'100%',pb:1,mb:1}} >
                   <Typography gutterBottom component="div" variant="subtitle2">
-                    <Link style={{textDecoration: 'none',fontSize:'inherit',color:'inherit'}} to={'/detail/'+item.id}>{item.title}</Link>
+                    <Link style={{textDecoration: 'none',fontSize:'inherit',color:'inherit'}} to={'/details/'+item.id}>{item.title}</Link>
                   </Typography>
                 </CardContent>
                 <CardMedia
