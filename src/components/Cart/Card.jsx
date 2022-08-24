@@ -3,24 +3,63 @@ import {
   RemoveCircleOutlineRounded,
 } from "@mui/icons-material";
 import axios from "./../../common/api/api";
-import { Card as CardMui } from "@mui/material";
+import { Card as CardMui, IconButton, Typography, Box } from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2";
 import { useDispatch, useSelector } from "react-redux";
-import { setTotalPrice, getTotalPrice } from "../../features/userInfo/userInfoSlice";
+import {
+  getTotalPrice,
+  cartChange,
+} from "../../features/userInfo/userInfoSlice";
 import { useEffect, useState } from "react";
 
-function Card({ id, amount }) {
-  const currentTotalPrice = useSelector(getTotalPrice);
-  const [product,setProduct] = useState({});
+function Card({ id, amount, currentUser }) {
+  const totalPrice = useSelector(getTotalPrice);
+  const [product, setProduct] = useState({});
   const dispatch = useDispatch();
-  useEffect(()=>{
+  const handleChange = (info) => {
+    dispatch(cartChange(info));
+  };
+  useEffect(() => {
     axios.get("products/" + id).then((res) => {
       setProduct(res.data);
     });
-  },[])
-  useEffect(() => {
-    dispatch(setTotalPrice({currentTotal:+currentTotalPrice,price:(product.price && product.price*amount)}));
-  }, [product.price,amount]);
-  return <div></div>;
+  }, []);
+  return (
+    <>
+      <Grid xs={12} md={6} lg={4}>
+        <CardMui sx={{ display: "flex" }}>content</CardMui>
+        <Box>
+          <IconButton
+            onClick={() =>
+              handleChange({
+                totalPrice,
+                id,
+                number: 1,
+                currentUser,
+                price: product.price,
+              })
+            }
+          >
+            <AddCircleOutlineRounded color="primary" />
+          </IconButton>
+          <Typography variant="body2">{amount}</Typography>
+          <IconButton
+            onClick={() =>
+              handleChange({
+                totalPrice,
+                id,
+                number: -1,
+                currentUser,
+                price: product.price,
+              })
+            }
+          >
+            <RemoveCircleOutlineRounded color="primary" />
+          </IconButton>
+        </Box>
+      </Grid>
+    </>
+  );
 }
 
 export default Card;

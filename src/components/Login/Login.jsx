@@ -16,6 +16,7 @@ import {
 } from "../../features/commonInfo/commonInfoSlice";
 import {
   getErrorMsg,
+  getAccounts,
   resetErrorMsg,
   setLogin,
   setSignin,
@@ -49,6 +50,7 @@ function Login({ isLogin }) {
   const [formValues,setFormValues] = useState(initialForm);
   const [errors,setErrors] = useState(initialErrors);
   const [errorMsg,setErrorMsg] = useState(initialErrorMsg);
+  const accounts = useSelector(getAccounts)
   const open = useSelector(getModal);
   const loginModal = useSelector(getLoginModal);
   const error = useSelector(getErrorMsg);
@@ -77,6 +79,7 @@ function Login({ isLogin }) {
         userName: e.target[0].value,
         password: e.target[2].value,
         email: e.target[4].value,
+        totalPrice:0,
         cart: {},
       })
     );

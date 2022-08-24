@@ -30,6 +30,7 @@ import {
   logout,
   getCurrentUser,
   getCartItems,
+  getAccounts,
 } from "../../features/userInfo/userInfoSlice";
 import {
   fetchAsyncCategories,
@@ -45,6 +46,7 @@ import { openModal } from "../../features/commonInfo/commonInfoSlice";
 function Header() {
   const [openMenu, setOpenMenu] = useState(null);
   const [drawer, setDrawer] = useState(false);
+  const accounts = useSelector(getAccounts)
   const categories = useSelector(getCategories);
   const cartItems = useSelector(getCartItems);
   const login = useSelector(getLogin);
@@ -57,9 +59,9 @@ function Header() {
     setDrawer(open);
   };
   useEffect(() => {
+    dispatch(fetchAccounts());
     dispatch(fetchAsyncCategories());
     dispatch(fetchLogin());
-    dispatch(fetchAccounts());
   }, []);
   return (
     // navbar
@@ -206,7 +208,7 @@ function Header() {
             {login && (
               <IconButton
                 title="Log out"
-                onClick={() => dispatch(logout(currentUser))}
+                onClick={() => dispatch(logout({currentUser,accounts}))}
                 sx={{ color: "#fff" }}
               >
                 <ExitToAppOutlined />
