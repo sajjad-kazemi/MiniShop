@@ -2,7 +2,7 @@ import {
   AddCircleOutlineRounded,
   RemoveCircleOutlineRounded,
 } from "@mui/icons-material";
-import axios from "./../../common/api/api";
+import axios from 'axios';
 import {
   Card as CardMui,
   CardMedia,

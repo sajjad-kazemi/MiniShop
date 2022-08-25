@@ -61,7 +61,7 @@ function Cart() {
                 })}
             </Grid>
             <Box sx={{display:'flex',flexWrap:'wrap'}}>
-              <Button disabled={TotalPrice===0 || false} variant="outlined" startIcon={<DeleteOutlined/>} onClick={clear} sx={{mx:'auto',my:5}}>
+              <Button color='error' disabled={TotalPrice===0 || false} variant="outlined" startIcon={<DeleteOutlined/>} onClick={clear} sx={{mx:'auto',my:5}}>
                 Clear Cart
               </Button>
               <Button disabled={TotalPrice===0 || false} variant="outlined" endIcon={<CreditScoreOutlined/>} onClick={pay} sx={{mx:'auto',my:5}}>

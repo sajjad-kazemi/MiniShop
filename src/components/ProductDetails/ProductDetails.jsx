@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "./../../common/api/api";
+import axios from 'axios';
 import { Box, Typography, IconButton } from "@mui/material";
 import {
   AddCircleOutlineRounded,
