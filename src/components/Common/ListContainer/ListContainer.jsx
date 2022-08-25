@@ -89,11 +89,11 @@ function ListContainer({ category }) {
                 />
                 <CardActions sx={{display:'flex',flexDirection:'row',justifyContent:'space-evenly'}}>
                   <IconButton onClick={()=>handleChange({totalPrice,id:item.id,number:1,currentUser,price:item.price})}>
-                    <AddCircleOutlineRounded color="primary" />
+                    <AddCircleOutlineRounded color="secondary" />
                   </IconButton>
                     <Typography variant="h6">{(login && cart[item.id]) || '0'}</Typography>
                   <IconButton onClick={()=>handleChange({totalPrice,id:item.id,number:-1,currentUser,price:item.price})}>
-                    <RemoveCircleOutlineRounded color="primary" />
+                    <RemoveCircleOutlineRounded color="secondary" />
                   </IconButton>
                 </CardActions>
                 <CardContent>

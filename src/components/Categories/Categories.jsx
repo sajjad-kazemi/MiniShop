@@ -10,10 +10,10 @@ function Categories() {
     <>
       <Container component="section">
         <Paper elevation={0} sx={{display:'flex',justifyContent: 'center',mt:2}}>
-          <ButtonGroup variant='contained' sx={{flexWrap:'wrap',justifyContent: 'center',boxShadow:'none'}}>
+          <ButtonGroup color="secondary" variant='contained' sx={{flexWrap:'wrap',justifyContent: 'center',boxShadow:'none'}}>
             {categories.map((category) =>{
               return (
-                <Button component={Link} to={"/categories/"+category} color="info" sx={{borderRadius:0,border:'none'}} onClick={()=>dispatch(fetchAsyncAllProducts({allProducts:false,category}))} key={category}>
+                <Button component={Link} to={"/categories/"+category} color="secondary" sx={{borderRadius:0,border:'none',backgroundColor:'secondary.dark',borderColor:'secondary.light'}} onClick={()=>dispatch(fetchAsyncAllProducts({allProducts:false,category}))} key={category}>
                   {category}
                 </Button>
               )

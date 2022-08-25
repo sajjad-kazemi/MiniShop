@@ -120,9 +120,12 @@ function Login({ isLogin }) {
     }
   }, [isLogin]);
   useEffect(() => {
-    setTimeout(() => {
+    let timeOut =  setTimeout(() => {
       dispatch(resetErrorMsg());
-    }, 3000);
+    }, 5000);
+    return ()=>{
+      clearTimeout(timeOut);
+    }
   }, [error, isLogin]);
 
   if (loginModal) {

@@ -23,7 +23,7 @@ function Footer() {
         sx={{
           width: "100%",
           minHeight: 150,
-          backgroundColor: "primary.dark",
+          backgroundColor: "secondary.dark",
           color: "#fff",
           display: "flex",
           justifyContent: "center",

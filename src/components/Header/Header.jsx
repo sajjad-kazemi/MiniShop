@@ -67,7 +67,7 @@ function Header() {
     // navbar
     <>
       <Box component="nav" sx={{ display: "flex", position: "sticky", top: 0, zIndex: 10 }}>
-        <AppBar position="sticky" component="div" color="primary">
+        <AppBar position="sticky" component="div" color="secondary">
           <Toolbar sx={{ justifyContent: { xs: "space-between" } }}>
             <Box
               sx={{
@@ -181,15 +181,17 @@ function Header() {
                 display: { xs: "none", sm: "inline" },
                 userSelect: "none",
                 textAlign: "end",
+                fontFamily:"'Monoton', cursive",
+                color:'#eee'
               }}
             >
-              MiniShop
+              MinishoP
             </Typography>
             {/* login / cart */}
             {login && (
               <Link to="/cart">
                 <Button title="Cart" sx={{ color: "#fff" }}>
-                  <Badge color="secondary" badgeContent={cartItems}>
+                  <Badge color="info" badgeContent={cartItems}>
                     <ShoppingBagOutlined sx={{ justifySelf: "flex-end" }} />
                   </Badge>
                 </Button>

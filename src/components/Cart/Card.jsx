@@ -61,7 +61,7 @@ function Card({ id, amount, currentUser }) {
                   })
                 }
               >
-                <AddCircleOutlineRounded color="primary" />
+                <AddCircleOutlineRounded color="secondary" />
               </IconButton>
               <Typography sx={{m:0}} variant="body2">{amount}</Typography>
               <IconButton
@@ -75,7 +75,7 @@ function Card({ id, amount, currentUser }) {
                   })
                 }
               >
-                <RemoveCircleOutlineRounded color="primary" />
+                <RemoveCircleOutlineRounded color="secondary" />
               </IconButton>
           </CardActions>
         </CardMui>
