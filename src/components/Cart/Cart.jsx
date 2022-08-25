@@ -7,7 +7,6 @@ import { useEffect } from "react";
 import {DeleteOutlined,CreditScoreOutlined} from '@mui/icons-material'
 import {
   getTotalPrice,
-  getCart,
   clearCart,
   getAccounts,
   getCurrentUser,

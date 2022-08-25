@@ -93,14 +93,14 @@ function Login({ isLogin }) {
     const {name,value} = target;
     if(name === 'userName' && value.length < 3 && value.length !== 0){
       setErrors({...errors,[name]:true});
-      setErrorMsg({...errorMsg,[name]:'UserName should have 3 characters at least!'})
+      setErrorMsg({...errorMsg,[name]:'UserName should have at least 3 characters!'})
       return;
     }
     if(name === 'email' ){
       const regex = (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
       if(!regex.test(value) && value.length !== 0){
         setErrors({...errors,[name]:true});
-        setErrorMsg({...errorMsg,[name]:'Please insert a valid email!'});
+        setErrorMsg({...errorMsg,[name]:'Please insert a valid email'});
         return;
       }
     }
@@ -191,7 +191,7 @@ function Login({ isLogin }) {
             </IconButton>
             {error && <Alert severity="error">{error}</Alert>}
             <Typography variant="h6" textAlign="center">
-              sign in
+              Sign in
             </Typography>
             <form onSubmit={handleSignin}>
               <Box sx={{ flexGrow: 1 }}>
@@ -230,7 +230,7 @@ function Login({ isLogin }) {
               </Box>
             </form>
             <Divider />
-            Already Registered?{" "}
+            Already Have Account?{" "}
             <Link
               onClick={handleModalChange}
               sx={{ useSelect: "none", cursor: "pointer" }}

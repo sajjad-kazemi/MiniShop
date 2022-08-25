@@ -37,6 +37,7 @@ function ListContainer({ category }) {
     const type = category && { allProducts: false, category:category };
     dispatch(fetchAsyncAllProducts(type));
   }, [category]);
+  // skeleton
   if (productsLoading) {
     return (
       <Grid sx={{mt:4}}  container spacing={2}>
