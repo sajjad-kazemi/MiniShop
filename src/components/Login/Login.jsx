@@ -163,6 +163,7 @@ function Login({ isLogin }) {
                       sx={{ width: "30%", mb: 2 }}
                       variant="contained"
                       type="submit"
+                      color='secondary'
                     >
                       Login
                     </Button>
@@ -174,6 +175,7 @@ function Login({ isLogin }) {
             <Link
               onClick={handleModalChange}
               sx={{ useSelect: "none", cursor: "pointer" }}
+              color='secondary'
             >
               Sign in
             </Link>
@@ -223,6 +225,7 @@ function Login({ isLogin }) {
                       sx={{ width: "30%", mb: 2 }}
                       variant="contained"
                       type="submit"
+                      color='secondary'
                     >
                       Signin
                     </Button>
@@ -235,6 +238,7 @@ function Login({ isLogin }) {
             <Link
               onClick={handleModalChange}
               sx={{ useSelect: "none", cursor: "pointer" }}
+              color='secondary'
             >
               Log in
             </Link>

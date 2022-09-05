@@ -53,7 +53,7 @@ function Cart() {
       <>
         <Box component="section">
           <Container sx={{display: 'flex',flexDirection: 'column'}}>
-          <Typography sx={{border:'3px #0288D1 solid',borderRadius:1,width:'fit-content',mx:'auto',px:2,py:1,color:'info.dark'}} color='text.info' variant='h5' textAlign='center' my={3}>Total Price: {TotalPrice.toFixed(2)} $</Typography>
+          {(TotalPrice && <Typography sx={{border:'3px #0288D1 solid',borderRadius:2,width:'fit-content',mx:'auto',px:2,py:1,color:'info.dark'}} color='text.info' variant='h5' textAlign='center' my={3}>Total Price: {TotalPrice.toFixed(2)} $</Typography>) || <Typography variant='h5' sx={{mx:'auto',my:2,px:2,py:1,color:'error.main',border:'3px #D33230 solid',borderRadius:2}}>The Cart is empty</Typography>}
             <Grid container spacing={3}>
               {products &&
                 Object.keys(products).map((id) => {
