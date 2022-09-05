@@ -44,10 +44,9 @@ function ListContainer({ category }) {
         {[...Array(12)].map((_,index)=>{
           return (
             <Grid key={index}  xs={12} sm={6} md={4} xlg={2}>
-              <Card sx={{width:300,height:600,justifyContent:'center',display:'flex',mx:'auto',mt:0}}>
+              <Card sx={{width:300,height:445,justifyContent:'center',display:'flex',mx:'auto',mt:0}}>
                 <CardContent>
-                  <Skeleton sx={{height:30,m:0}} animation="wave" variant="text"/>
-                  <Skeleton animation="wave" variant="rounded" width={400} height={400}/>
+                  <Skeleton animation="wave" variant="rounded" width={400} height={270}/>
                   <Box sx={{display:'flex',justifyContent: 'center',alignItems: 'center'}}>
                     <Skeleton animation="wave" variant='circular' sx={{mx:'10px',my:'30px'}} width={30} height={30}/>
                     <Skeleton animation="wave" variant='circular' sx={{mx:'20px',my:'30px'}} width={25} height={25}/>
@@ -69,21 +68,22 @@ function ListContainer({ category }) {
     dispatch(cartChange(info))
   }
   return (
-    <Grid container spacing={2}>
+    <Grid sx={{mb:2}} container spacing={2}>
       {products &&
         products.map((item) => {
           return (
             <Grid  sx={{mt:4}} key={item.id} xs={12} sm={6} md={4} xlg={2} >
               <Card sx={{ maxWidth: 300, maxHeight:4000 ,minHeight:450,mx:'auto' }}>
-                <CardContent sx={{backgroundColor:'#eee',width:'100%',height:'100%',pb:1,mb:1}} >
-                  <Typography gutterBottom component="div" variant="subtitle2">
-                    <Link style={{textDecoration: 'none',fontSize:'inherit',color:'inherit'}} to={'/details/'+item.id}>{item.title}</Link>
+                <CardContent sx={{backgroundColor:'#eee',width:'100%',height:'100%',pb:1,pl:1,pr:3,mb:1,fontSize:'clamp(16px,1rem,30px)',textAlign:'justify'
+                }} >
+                  <Typography sx={{width:'100%',position:'relative'}} gutterBottom component="div" variant="subtitle2">
+                    <Link style={{width:'100%',textDecoration: 'none',fontSize:'inherit',color:'inherit',whiteSpace:'nowrap',textOverflow:'ellipsis',overflow:'hidden',display:'inline-block'}} to={'/details/'+item.id}>{item.title}</Link>
                   </Typography>
                 </CardContent>
                 <CardMedia
                   image={item.image}
                   height="400"
-                  sx={{width:{xs:'100%',sm:'auto'},maxWidth:300,height:{xs:'auto'},maxHeight:400,cursor:'pointer'}}
+                  sx={{width:'100%',height:200,cursor:'pointer',objectFit:'contain'}}
                   component='img'
                   onClick={()=>navigate('/details/'+item.id)}
                   alt={item.title}
@@ -97,7 +97,7 @@ function ListContainer({ category }) {
                     <RemoveCircleOutlineRounded color="secondary" />
                   </IconButton>
                 </CardActions>
-                <CardContent>
+                <CardContent sx={{my:0}}>
                   {item.price+" "}$
                 </CardContent>
               </Card>

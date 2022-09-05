@@ -50,15 +50,16 @@ function Login({ isLogin }) {
   const [formValues,setFormValues] = useState(initialForm);
   const [errors,setErrors] = useState(initialErrors);
   const [errorMsg,setErrorMsg] = useState(initialErrorMsg);
-  const accounts = useSelector(getAccounts)
   const open = useSelector(getModal);
   const loginModal = useSelector(getLoginModal);
   const error = useSelector(getErrorMsg);
   const dispatch = useDispatch();
   const handleClose = () => {
     dispatch(closeModal());
-    setFormValues(initialForm)
-    
+    dispatch(resetErrorMsg());
+    setFormValues(initialForm);
+    setErrors(initialErrors);
+    setErrorMsg(initialErrorMsg);
   };
   const handleModalChange = () => {
     setFormValues(initialForm);
@@ -132,12 +133,12 @@ function Login({ isLogin }) {
     return (
       <>
         <Modal open={open} onClose={handleClose}>
-          <Box sx={style}>
+          <Box component='section' sx={style}>
             <IconButton onClick={handleClose} sx={{ top: 0, left: 0 }}>
               <Close />
             </IconButton>
             {error && <Alert severity="error">{error}</Alert>}
-            <Typography variant="h6" textAlign="center">
+            <Typography variant="h5" textAlign="center" sx={{mb:1}}>
               Log in
             </Typography>
               <Box onSubmit={handleLogin} component="form" sx={{ flexGrow: 1 }}>
@@ -168,7 +169,7 @@ function Login({ isLogin }) {
                   </Grid>
                 </Grid>
               </Box>
-            <Divider />
+            <Divider sx={{mb:1}}/>
             Don't have Account?{" "}
             <Link
               onClick={handleModalChange}
@@ -190,7 +191,7 @@ function Login({ isLogin }) {
               <Close />
             </IconButton>
             {error && <Alert severity="error">{error}</Alert>}
-            <Typography variant="h6" textAlign="center">
+            <Typography variant="h5" textAlign="center" sx={{mb:1}}>
               Sign in
             </Typography>
             <form onSubmit={handleSignin}>
@@ -229,7 +230,7 @@ function Login({ isLogin }) {
                 </Grid>
               </Box>
             </form>
-            <Divider />
+            <Divider sx={{mb:1}}/>
             Already Have Account?{" "}
             <Link
               onClick={handleModalChange}

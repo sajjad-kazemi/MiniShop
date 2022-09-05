@@ -4,12 +4,14 @@ import {
 } from "@mui/icons-material";
 import axios from 'axios';
 import {
+  Box,
   Card as CardMui,
   CardMedia,
   CardContent,
   CardActions,
   IconButton,
   Typography,
+  Skeleton
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,7 +21,7 @@ import {
 } from "../../features/userInfo/userInfoSlice";
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from 'react-router-dom';
-
+import '../ProductDetails/Loading.css'
 function Card({ id, amount, currentUser }) {
   const totalPrice = useSelector(getTotalPrice);
   const [product, setProduct] = useState({});
@@ -33,21 +35,30 @@ function Card({ id, amount, currentUser }) {
       setProduct(res.data);
     });
   }, []);
+  if(!Object.keys(product).length){
+    return (
+      <Grid xs={12} md={6} lg={4}>
+        <Box>
+          <div className="basic"></div>
+        </Box>
+      </Grid>
+    )
+  }
   return (
     <>
       <Grid xs={12} md={6} lg={4}>
-        <CardMui sx={{ display: "flex", flexWrap:'wrap' }}>
+        <CardMui sx={{ display: "flex", flexWrap:'nowrap',height:200,width:'auto',position:'relative' }}>
           <CardMedia 
             image={product.image}
             component='img'
             onClick={()=>navigate('/details/'+product.id)}
-            sx={{cursor:'pointer',maxWidth:150,minHeight:100}}
+            sx={{cursor:'pointer',width:'30%',height:'100%',objectFit:'contain'}}
           />
             <CardContent>
-              <Link to={'/details/'+product.id} style={{textDecoration: 'none',fontSize:'inherit',color:'inherit'}}>
-                <Typography variant='body1'>{product.title}</Typography>
+              <Link to={'/details/'+product.id} style={{textDecoration: 'none',fontSize:'inherit',color:'inherit',display:'block'}}>
+                <Typography sx={{textOverflow:'ellipsis',wordWrap:'break-word',overflow:'hidden'}} variant='body1'>{product.title}</Typography>
               </Link>
-              <Typography variant='body2'>{+product.price}$</Typography>
+              <Typography sx={{display:'block'}} variant='body2'>{+product.price}$</Typography>
             </CardContent>
           <CardActions sx={{ display: "flex", justifyContent: "center",alignItems: "center"}}>
               <IconButton

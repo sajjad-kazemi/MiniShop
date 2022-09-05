@@ -2,13 +2,14 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from 'axios';
-import { Box, Typography, IconButton } from "@mui/material";
+import { Box, Typography, IconButton, Skeleton } from "@mui/material";
 import {
   AddCircleOutlineRounded,
   RemoveCircleOutlineRounded,
 } from "@mui/icons-material";
 import {getCart,cartChange,getCurrentUser,getLogin} from '../../features/userInfo/userInfoSlice'
 import {openModal} from '../../features/commonInfo/commonInfoSlice'
+import './Loading.css'
 function ProductDetails() {
   const [product, setProduct] = useState({});
   const { productDetails } = useParams();
@@ -35,11 +36,19 @@ function ProductDetails() {
         console.error(er);
       });
   }, []);
+  if (Object.keys(product).length === 0){
+    return (<>
+      <Box component='div' sx={{width:'100%',height:'50vh',display:'flex',justifyContent: "center",alignItems:'center'}}>
+        <div className="basic"></div>
+      </Box>
+    </>)
+  }
   return (
     <Box component="section">
-      <Typography sx={{mx:3}} variant="h5">{product.title}</Typography>
+      <Typography sx={{mx:3,my:1,textAlign:{xs:'center',md:'start'}}} variant="h5">{product.title}</Typography>
       <Box sx={{display:'flex',flexDirection:{xs:'column',sm:'row'} }}>
-        <Box sx={{ width: { xs: "100%", md: "50vw" },mx:1,height:'auto' , '& img':{width:'100%'}}} component='div'><img src={product.image} alt="" />
+        <Box sx={{display:'flex',flexDirection:'column',justifyContent:'start',width: { xs: "100%", md: "50vw" },minWidth:'30%',mx:2,my:1,height:'auto','& img':{width:{xs:'80%',md:'100%'},height:{xs:'30%',md:'50vh'},maxHeight:{md:'50vh'},objectFit:'contain',padding:.5},alignSelf:'center'}} component='div'>
+        <img style={{alignSelf:'center'}} src={product.image} alt="" />
       <Typography sx={{my:2}} textAlign="center" variant="body1">{product.price} $</Typography>
         <Box sx={{display:'flex',flexDirection:'row',justifyContent:'space-evenly',alignItems:'center'}}>
           <IconButton onClick={()=>handleClick(1)}>
@@ -51,7 +60,7 @@ function ProductDetails() {
           </IconButton>
         </Box>
         </Box>
-        <Typography sx={{mx:1,my:2}} variant="body1">{product.description}</Typography>
+        <Typography sx={{maxWidth:{xs:'none',md:'70%'},height:'min-content',mx:1,my:2,p:2,textAlign:{xs:'justify',md:'start'},borderWidth:'5px',borderStyle:'double',borderColor:'secondary.light',borderRadius:3}} variant="body1">{product.description}</Typography>
       </Box>
     </Box>
   );

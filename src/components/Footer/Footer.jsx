@@ -1,19 +1,20 @@
-import { Box, Link } from "@mui/material";
+import { Box, Link, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
+import {GitHub,ViewModule} from '@mui/icons-material'
 function Footer() {
   const LinkMaker = ({to,text}) => {
     return (
-      <RouterLink style={{ textDecoration: "none" }} to={'/'+to}>
-        <Link
-          component=""
+      <RouterLink style={{ textDecoration: "none" }} to={'/'+to} >
+        <Typography
           sx={{
+            textDecoration: "none",
             color: "#fff",
             "&:hover": { textDecoration: "underline" },
             "&:visited": { color: "primary.light" },
           }}
         >
           {text}
-        </Link>
+        </Typography>
       </RouterLink>
     );
   };
@@ -29,6 +30,7 @@ function Footer() {
           justifyContent: "center",
           alignItems: "center",
           py: 2,
+          flexDirection:{xs:'column',sm:'row'}
         }}
         component="footer"
       >
@@ -45,12 +47,14 @@ function Footer() {
         </ul>
         <ul style={{listStyle:'none'}} >
           <li>
-            <Link target="_blank" rel="noopener" sx={{color: "#fff" }} href="https://sajjad-kazemi-portfolio.netlify.app/">
+            <Link target="_blank" rel="noopener" sx={{color: "#fff",textDecoration:'none','&:hover':{textDecoration:'underline'},display:'flex' }} href="https://sajjad-kazemi-portfolio.netlify.app/">
+              <ViewModule/>
               My Portfolio
             </Link>
           </li>
           <li>
-            <Link target="_blank" rel="noopener" sx={{color: "#fff" }} href="https://github.com/sajjad-kazemi">
+            <Link target="_blank" rel="noopener" sx={{color: "#fff",textDecoration:'none','&:hover':{textDecoration:'underline'}, display:'flex',mt:1 }} href="https://github.com/sajjad-kazemi">
+              <GitHub/>
               My Github
             </Link>
           </li>
