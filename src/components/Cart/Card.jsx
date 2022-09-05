@@ -47,20 +47,20 @@ function Card({ id, amount, currentUser }) {
   return (
     <>
       <Grid xs={12} md={6} lg={4}>
-        <CardMui sx={{ display: "flex", flexWrap:'nowrap',height:200,width:'auto',position:'relative' }}>
+        <CardMui sx={{ maxWidth: 300, maxHeight:4000 ,minHeight:450,mx:'auto' }}>
+            <CardContent sx={{backgroundColor:'#eee',width:'100%',height:'100%',pb:1,pl:1,pr:3,mb:1,fontSize:'clamp(16px,1rem,30px)',textAlign:'justify'
+                }}>
+              <Typography sx={{width:'100%',position:'relative'}} gutterBottom component="div" variant="subtitle2">
+                    <Link style={{width:'100%',textDecoration: 'none',fontSize:'inherit',color:'inherit',whiteSpace:'nowrap',textOverflow:'ellipsis',overflow:'hidden',display:'inline-block'}} to={'/details/'+product.id}>{product.title}</Link>
+                  </Typography>
+            </CardContent>
           <CardMedia 
             image={product.image}
             component='img'
             onClick={()=>navigate('/details/'+product.id)}
-            sx={{cursor:'pointer',width:'30%',height:'100%',objectFit:'contain'}}
+            sx={{width:'100%',height:200,cursor:'pointer',objectFit:'contain'}}
           />
-            <CardContent>
-              <Link to={'/details/'+product.id} style={{textDecoration: 'none',fontSize:'inherit',color:'inherit',display:'block'}}>
-                <Typography sx={{textOverflow:'ellipsis',wordWrap:'break-word',overflow:'hidden'}} variant='body1'>{product.title}</Typography>
-              </Link>
-              <Typography sx={{display:'block'}} variant='body2'>{+product.price}$</Typography>
-            </CardContent>
-          <CardActions sx={{ display: "flex", justifyContent: "center",alignItems: "center"}}>
+          <CardActions sx={{display:'flex',flexDirection:'row',justifyContent:'space-evenly'}}>
               <IconButton
                 onClick={() =>
                   handleChange({
@@ -74,7 +74,7 @@ function Card({ id, amount, currentUser }) {
               >
                 <AddCircleOutlineRounded color="secondary" />
               </IconButton>
-              <Typography sx={{m:0}} variant="body2">{amount}</Typography>
+              <Typography sx={{m:0}} variant="h6">{amount}</Typography>
               <IconButton
                 onClick={() =>
                   handleChange({
@@ -89,6 +89,9 @@ function Card({ id, amount, currentUser }) {
                 <RemoveCircleOutlineRounded color="secondary" />
               </IconButton>
           </CardActions>
+          <CardContent sx={{my:0}}>
+            {product.price+' '}$
+          </CardContent>
         </CardMui>
       </Grid>
     </>
