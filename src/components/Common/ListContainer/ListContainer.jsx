@@ -123,9 +123,9 @@ function ListContainer({ category }) {
                   maxHeight: 4000,
                   minHeight: 455,
                   mx: "auto",
-                  py:1,
                   display:'flex',
                   flexDirection:'column',
+                  justifyContent:'space-between'
                 }}
               >
                 <CardContent
