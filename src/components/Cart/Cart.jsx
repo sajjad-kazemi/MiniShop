@@ -51,8 +51,8 @@ function Cart() {
   if (login) {
     return (
       <>
-        <Box component="section">
-          <Container sx={{display: 'flex',flexDirection: 'column'}}>
+        <Box component="section" sx={{height:'auto'}}>
+          <Container sx={{display: 'flex',flexDirection: 'column',justifyContent:'space-between',minHeight:'100%'}}>
           {(TotalPrice && <Typography sx={{border:'3px #0288D1 solid',borderRadius:2,width:'fit-content',mx:'auto',px:2,py:1,color:'info.dark'}} color='text.info' variant='h5' textAlign='center' my={3}>Total Price: {TotalPrice.toFixed(2)} $</Typography>) || <Typography variant='h5' sx={{mx:'auto',my:2,px:2,py:1,color:'error.main',border:'3px #D33230 solid',borderRadius:2}}>The Cart is empty</Typography>}
             <Grid container spacing={3}>
               {products &&
@@ -60,7 +60,7 @@ function Cart() {
                   return <Card currentUser={currentUser} key={id} amount={products[id]} id={id} />;
                 })}
             </Grid>
-            <Box sx={{display:'flex',flexWrap:'wrap'}}>
+            <Box sx={{display:'flex',flexWrap:'wrap',mt:'auto'}}>
               <Button color='error' disabled={TotalPrice===0 || false} variant="outlined" startIcon={<DeleteOutlined/>} onClick={clear} sx={{mx:'auto',my:5}}>
                 Clear Cart
               </Button>

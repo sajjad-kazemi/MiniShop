@@ -16,10 +16,10 @@ import {
 } from "../../features/commonInfo/commonInfoSlice";
 import {
   getErrorMsg,
-  getAccounts,
   resetErrorMsg,
   setLogin,
   setSignin,
+  changeErrorMsg,
 } from "../../features/userInfo/userInfoSlice";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -66,15 +66,28 @@ function Login({ isLogin }) {
     setErrors(initialErrors);
     setErrorMsg(initialErrorMsg);
     dispatch(signOrLog(!loginModal));
+    dispatch(resetErrorMsg());
   };
   const handleLogin = (e) => {
     e.preventDefault();
+    for (let i in errors){
+      if(errors[i]){
+        dispatch(changeErrorMsg('Please fill the form correctly.'))
+        return;
+      }
+    }
     dispatch(
       setLogin({ userName: e.target[0].value, password: e.target[2].value })
     );
   };
   const handleSignin = (e) => {
     e.preventDefault();
+    for (let i in errors){
+      if(errors[i]){
+        dispatch(changeErrorMsg('Please fill the form correctly.'))
+        return;
+      }
+    }
     dispatch(
       setSignin({
         userName: e.target[0].value,
@@ -92,9 +105,9 @@ function Login({ isLogin }) {
   }
   const validate =(target)=>{
     const {name,value} = target;
-    if(name === 'userName' && value.length < 3 && value.length !== 0){
+    if(name === 'userName' && ((value.length < 3 && value.length !== 0) || (/[0-9]/).test(value))){
       setErrors({...errors,[name]:true});
-      setErrorMsg({...errorMsg,[name]:'UserName should have at least 3 characters!'})
+      setErrorMsg({...errorMsg,[name]:'UserName should have at least 3 characters and without any number!'})
       return;
     }
     if(name === 'email' ){

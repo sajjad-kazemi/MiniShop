@@ -17,7 +17,7 @@ function ProductDetails() {
   const cart = useSelector(getCart);
   const login = useSelector(getLogin);
   const currentUser = useSelector(getCurrentUser);
-  const amount = cart[product.id] || '0';
+  const amount = (!login && '-' )|| (cart[product.id] || '0');
   const handleClick = (number)=>{
     if(!login){
       dispatch(openModal());
@@ -54,7 +54,7 @@ function ProductDetails() {
           <IconButton onClick={()=>handleClick(1)}>
             <AddCircleOutlineRounded color="secondary"/>
           </IconButton>
-          <Typography>{amount}</Typography>
+          <Typography sx={{backgroundColor:'#eee',minWidth:'1em',width:'fit-content',p:'.1em',textAlign:'center',borderRadius:'.5em'}} variant='h5'>{amount}</Typography>
           <IconButton onClick={()=>handleClick(-1)}>
             <RemoveCircleOutlineRounded color="secondary"/>
           </IconButton>

@@ -37,11 +37,7 @@ function Card({ id, amount, currentUser }) {
   }, []);
   if(!Object.keys(product).length){
     return (
-      <Grid xs={12} md={6} lg={4}>
-        <Box>
-          <div className="basic"></div>
-        </Box>
-      </Grid>
+      <></>
     )
   }
   return (

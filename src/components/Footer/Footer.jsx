@@ -30,6 +30,7 @@ function Footer() {
           justifyContent: "center",
           alignItems: "center",
           py: 2,
+          mt:'auto',
           flexDirection:{xs:'column',sm:'row'}
         }}
         component="footer"

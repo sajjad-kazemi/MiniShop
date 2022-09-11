@@ -106,6 +106,9 @@ please try something else.`;
     resetErrorMsg: (state) => {
       state.errorMsg = "";
     },
+    changeErrorMsg: (state, { payload }) => {
+      state.errorMsg = String(payload)
+    },
     logout: (state, { payload }) => {
       const {currentUser,accounts} = payload;
       const lsAccounts = JSON.parse(localStorage.getItem("accounts"));
@@ -209,7 +212,7 @@ please try something else.`;
   },
 });
 
-export const { setLogin, setSignin, resetErrorMsg, logout, cartChange, clearCart,  } =
+export const { setLogin, setSignin, resetErrorMsg,changeErrorMsg, logout, cartChange, clearCart,  } =
   UserInfoSlice.actions;
 export const getCurrentUser = store => store.userInfo.currentUser;
 export const getLogin = store => store.userInfo.login;
